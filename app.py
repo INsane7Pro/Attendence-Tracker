@@ -1,50 +1,84 @@
-from flask_restful import Resource, Api
-from flask import render_template
-from os import system
-from flask import *
+from flask import Flask, render_template, request
+import math
 
-system("clear")
-
-# The function that predicts.
-def check(curr_lec,tot_lec):
-  temp = curr_lec
-  per=(curr_lec/tot_lec)*100
-  perc =per
-  if per >=75:
-    print("\n--------| PERCENTAGE IN SAFE ZONE |--------\n")
-    no = curr_lec-temp
-    no,curr_lec,tot_lec = 0,0,0
-    return no,curr_lec,tot_lec,perc
-  else:
-    while per < 75 :
-      curr_lec +=1
-      tot_lec +=1
-      per =  (curr_lec/tot_lec)*100
-    return curr_lec-temp,curr_lec,tot_lec,perc
-
-#staring web app
 app = Flask(__name__)
-api = Api(app)
 
-class Home(Resource):
-  def get(self):
-    print("\n--------------------------")
-    print("Home Page loaded") 
-    print("--------------------------\n")
-    curr_lec = request.args.get('curr_lec')
-    tot_lec = request.args.get('tot_lec')
-    name = request.args.get('name')
-    print(name,curr_lec,tot_lec)
-    
-    #For default page
-    if curr_lec  == None or name == None:
-      print("\n--------| None ASSIGNMNET |--------")
-      curr_lec,tot_lec,name = 1,1,""
 
-    tmp,v1,v2,perc = check(int(curr_lec),int(tot_lec))
-    return make_response(render_template('index.html',temp=tmp,val1=v1,val2=v2,per=perc,name=name))
-    
-api.add_resource(Home, '/',methods=['GET', 'POST'])
+def check(curr_lec, tot_lec):
+    if tot_lec <= 0:
+        raise ValueError("Total lectures must be greater than zero.")
 
-if __name__ == '__main__':
-    app.run(debug=True)    
+    if curr_lec < 0:
+        raise ValueError("Attended lectures cannot be negative.")
+
+    if curr_lec > tot_lec:
+        raise ValueError("Attended lectures cannot exceed total lectures.")
+
+    perc = round((curr_lec / tot_lec) * 100, 2)
+
+    # Additional consecutive lectures needed to reach 75%.
+    temp = max(0, math.ceil(3 * tot_lec - 4 * curr_lec))
+
+    val1 = curr_lec + temp
+    val2 = tot_lec + temp
+
+    return temp, val1, val2, perc
+
+
+@app.route("/", methods=["GET"])
+def home():
+    name = request.args.get("name", "").strip()
+    curr_input = request.args.get("curr_lec", "").strip()
+    tot_input = request.args.get("tot_lec", "").strip()
+
+    # Default dashboard.
+    if not name and not curr_input and not tot_input:
+        return render_template(
+            "index.html",
+            name="",
+            temp=None,
+            val1=None,
+            val2=None,
+            per=None,
+            error=None
+        )
+
+    # Initialize results before validation.
+    temp = val1 = val2 = perc = None
+
+    try:
+        if not name:
+            raise ValueError("Please enter your name.")
+
+        if not curr_input or not tot_input:
+            raise ValueError("Please enter both lecture counts.")
+
+        curr_lec = int(curr_input)
+        tot_lec = int(tot_input)
+
+        if not 0 <= curr_lec <= 200:
+            raise ValueError("Attended lectures must be between 0 and 200.")
+
+        if not 1 <= tot_lec <= 200:
+            raise ValueError("Total lectures must be between 1 and 200.")
+
+        temp, val1, val2, perc = check(curr_lec, tot_lec)
+
+        error = None
+
+    except ValueError as e:
+        error = str(e)
+
+    return render_template(
+        "index.html",
+        name=name,
+        temp=temp,
+        val1=val1,
+        val2=val2,
+        per=perc,
+        error=error
+    )
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

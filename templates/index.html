@@ -1,113 +1,1278 @@
-<html lang="en-US"><head>
-  <meta charset="UTF-8">
-  <meta name="Author" content="Paras Dhiman">
-  <meta name="Description" content="MST-Bank">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2249/2249539.png" type="image/icon type">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <title>Attendance Checker</title>  
-  <style>
-    a.button4{
-      display:inline-block;
-      padding:0.3em 1.2em;
-      margin:0 0.1em 0.1em 0;
-      border:0.16em solid rgba(255,255,255,0);
-      border-radius:2em;
-      box-sizing: border-box;
-      text-decoration:none;
-      font-family:'Roboto',sans-serif;
-      font-weight:300;
-      color:#FFFFFF;
-      text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
-      text-align:center;
-      transition: all 0.2s;
-    }
-    a.button4:hover{
-      border-color: rgba(255,255,255,1);
-    }
-    @media all and (max-width:30em){
-    a.button4{
-    display:block;
-    margin:0.2em auto;
-    }
-} 
-  </style>
-  <style>
-    body {
-      background-image: url('/static/galaxy.jpg') ;
-      background-position: center;
-      background-size: cover;
-      }
-   </style>
-  <style>
-    #footer {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080713">
+<meta name="description" content="MST Services Galaxy Pro Attendance Dashboard">
+<title>Galaxy Pro | MST Services</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #080713;
+    --panel: rgba(19, 16, 39, .84);
+    --panel2: #15112a;
+    --purple: #a855f7;
+    --violet: #7c3aed;
+    --pink: #ec4899;
+    --text: #f7f4ff;
+    --muted: #a29bbd;
+    --line: rgba(196, 181, 253, .13);
+    --green: #4ade80;
+    --red: #fb7185;
+    --radius: 20px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    overflow-x: hidden;
+}
+
+button, input { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+
+#starfield {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--duration, 4s) ease-in-out infinite alternate;
+    animation-delay: var(--delay, 0s);
+}
+
+.ambient {
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    filter: blur(110px);
+    opacity: .14;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.ambient.one {
+    top: -200px;
+    left: 15%;
+    background: #9333ea;
+}
+
+.ambient.two {
+    bottom: -240px;
+    right: 0;
+    background: #6d28d9;
+}
+
+@keyframes twinkle {
+    from { opacity: .15; transform: scale(.7); }
+    to { opacity: .95; transform: scale(1.2); }
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+
+.sidebar {
+    width: 245px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--line);
+    background: rgba(10, 8, 23, .88);
+    backdrop-filter: blur(20px);
+    padding: 26px 17px;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 9px 31px;
+}
+
+.brand img {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 1px solid rgba(168,85,247,.5);
+    box-shadow: 0 0 22px rgba(168,85,247,.23);
+}
+
+.brand-name {
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: -.5px;
+}
+
+.brand-name span { color: #c084fc; }
+
+.brand-caption {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 5px;
+    letter-spacing: 1.7px;
+}
+
+.nav-heading {
+    color: #736c90;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+    padding: 0 12px;
+    margin: 0 0 13px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+    padding: 13px 14px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+    transition: .2s;
+    font-size: 13px;
+}
+
+.nav-link .nav-icon {
+    width: 22px;
+    font-size: 17px;
     text-align: center;
-    padding: 10px 0px 0px 10px;
-    bottom: 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: linear-gradient(110deg, rgba(139,92,246,.24), rgba(168,85,247,.06));
+    color: #e9d5ff;
+}
+
+.nav-link.active {
+    border: 1px solid rgba(168,85,247,.18);
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 15px 12px 0;
+}
+
+.system-card {
+    border: 1px solid var(--line);
+    background: rgba(168,85,247,.07);
+    border-radius: 14px;
+    padding: 15px;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--green);
+}
+
+.system-card p {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+    margin: 10px 0 0;
+}
+
+/* Main layout */
+
+.main {
+    flex: 1;
+    min-width: 0;
+    padding: 29px clamp(18px, 3vw, 42px) 25px;
+    max-width: 1700px;
+    margin: 0 auto;
     width: 100%;
-    height: 65px;
-    background: transparent;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 31px;
+}
+
+.breadcrumb {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.breadcrumb span { color: #d8b4fe; }
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.live-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border: 1px solid var(--line);
+    border-radius: 30px;
+    color: #c4b5fd;
+    background: rgba(168,85,247,.06);
+    font-size: 11px;
+}
+
+.live-pill .status-dot { width: 6px; height: 6px; }
+
+.avatar {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 13px;
+    border: 1px solid rgba(192,132,252,.35);
+    background: linear-gradient(135deg, #7c3aed, #c026d3);
+    font-weight: 800;
+}
+
+.page-title {
+    font-size: clamp(25px, 3vw, 34px);
+    letter-spacing: -1.3px;
+    margin: 0;
+    font-weight: 800;
+}
+
+.page-title .gradient {
+    background: linear-gradient(90deg, #d8b4fe, #a855f7, #f0abfc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.page-description {
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 11px 0 25px;
+    font-size: 13px;
+}
+
+.section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #b6a8d6;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    margin: 0 0 15px;
+}
+
+/* Dashboard cards */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    border: 1px solid var(--line);
+    border-radius: 17px;
+    background: linear-gradient(140deg, rgba(29,23,54,.92), rgba(15,13,31,.9));
+    padding: 20px;
+    min-width: 0;
+    transition: transform .25s, border-color .25s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(168,85,247,.38);
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.stat-icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: rgba(168,85,247,.13);
+    color: #d8b4fe;
+    font-size: 17px;
+}
+
+.stat-value {
+    font-size: clamp(24px, 3vw, 31px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-top: 16px;
+    overflow-wrap: anywhere;
+}
+
+.stat-value small {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+.stat-foot {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.stat-foot.purple { color: #c4b5fd; }
+.stat-foot.green { color: var(--green); }
+.stat-foot.red { color: var(--red); }
+
+/* Main dashboard columns */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(19px, 2.3vw, 27px);
+    min-width: 0;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 18px 60px rgba(0,0,0,.14);
+}
+
+.panel-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.panel-heading h2 {
+    font-size: 16px;
+    margin: 0;
+    font-weight: 700;
+}
+
+.panel-heading p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 7px 0 0;
+}
+
+.mini-tag {
+    border: 1px solid rgba(168,85,247,.22);
+    color: #d8b4fe;
+    background: rgba(168,85,247,.08);
+    padding: 7px 9px;
+    border-radius: 8px;
+    white-space: nowrap;
+    font-size: 10px;
+}
+
+/* Form */
+
+.field { margin-bottom: 20px; }
+
+.field label {
+    display: block;
+    font-weight: 600;
+    color: #e6e0f5;
+    font-size: 12px;
+    margin-bottom: 9px;
+}
+
+.input-wrap { position: relative; }
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    opacity: .9;
+}
+
+.field input {
+    width: 100%;
+    min-height: 49px;
+    border-radius: 11px;
+    outline: none;
+    border: 1px solid rgba(196,181,253,.16);
+    background: rgba(7,6,19,.72);
+    color: var(--text);
+    padding: 13px 14px 13px 43px;
+    font-size: 13px;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.field input::placeholder { color: #6e6689; }
+
+.field input:focus {
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168,85,247,.12);
+}
+
+.field input:invalid:not(:placeholder-shown) {
+    border-color: rgba(251,113,133,.7);
+}
+
+.field-hint {
+    color: #807895;
+    font-size: 10px;
+    margin: 7px 0 0;
+    line-height: 1.6;
+}
+
+.primary-btn {
+    width: 100%;
+    min-height: 51px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(105deg, #7c3aed, #a855f7 55%, #c026d3);
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 7px 25px rgba(139,92,246,.23);
+    transition: transform .2s, filter .2s, box-shadow .2s;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: 0 10px 32px rgba(139,92,246,.35);
+}
+
+.primary-btn:active { transform: translateY(0); }
+
+.form-foot {
+    text-align: center;
+    color: #807895;
+    font-size: 10px;
+    margin: 14px 0 0;
+    line-height: 1.6;
+}
+
+/* Circular gauge */
+
+.gauge-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 0 18px;
+}
+
+.gauge {
+    --progress: 0%;
+    width: 205px;
+    height: 205px;
+    max-width: 100%;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    position: relative;
+    background: conic-gradient(
+        from -90deg,
+        #c084fc 0%,
+        #9333ea var(--progress),
+        rgba(168,85,247,.10) var(--progress),
+        rgba(168,85,247,.10) 100%
+    );
+    box-shadow: 0 0 40px rgba(139,92,246,.10);
+    transition: background 1s ease;
+}
+
+.gauge::before {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    border-radius: 50%;
+    background: #100d22;
+    border: 1px solid rgba(196,181,253,.10);
+}
+
+.gauge-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.gauge-value {
+    font-size: 42px;
+    letter-spacing: -2px;
+    font-weight: 800;
+    background: linear-gradient(120deg, #fff, #d8b4fe);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.gauge-value small {
+    font-size: 18px;
+    letter-spacing: 0;
+}
+
+.gauge-caption {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 7px;
+}
+
+.gauge-status {
+    margin-top: 19px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    background: rgba(168,85,247,.09);
+    border: 1px solid rgba(168,85,247,.2);
+    border-radius: 30px;
+    color: #d8b4fe;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.gauge-status.good {
+    background: rgba(74,222,128,.08);
+    border-color: rgba(74,222,128,.2);
+    color: #86efac;
+}
+
+.gauge-status.warning {
+    background: rgba(251,113,133,.08);
+    border-color: rgba(251,113,133,.2);
+    color: #fda4af;
+}
+
+.target-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+}
+
+.target-line span:first-child { color: var(--muted); }
+.target-line strong { color: #e9d5ff; }
+
+.progress-track {
+    height: 5px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(168,85,247,.12);
+    margin: 0 0 18px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #7c3aed, #e879f9);
+    transition: width .8s ease;
+}
+
+/* Result and live preview */
+
+.result-banner {
+    border: 1px solid rgba(168,85,247,.22);
+    border-radius: 14px;
+    padding: 16px;
+    background: linear-gradient(115deg, rgba(124,58,237,.13), rgba(236,72,153,.05));
+    margin-top: 18px;
+}
+
+.result-banner .result-title {
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
+.result-banner .result-number {
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -.7px;
+    color: #e9d5ff;
+    overflow-wrap: anywhere;
+}
+
+.result-banner .result-copy {
+    color: #b9b0d0;
+    font-size: 11px;
+    line-height: 1.7;
+    margin-top: 7px;
+}
+
+.result-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+    margin-top: 13px;
+}
+
+.result-small {
+    background: rgba(7,6,19,.45);
+    border: 1px solid var(--line);
+    padding: 13px;
+    border-radius: 12px;
+    min-width: 0;
+}
+
+.result-small p {
+    font-size: 10px;
+    color: var(--muted);
+    margin: 0 0 8px;
+}
+
+.result-small strong {
+    font-size: 19px;
+    overflow-wrap: anywhere;
+}
+
+.privacy {
+    color: #8d85a7;
+    font-size: 10px;
+    line-height: 1.7;
+    margin-top: 18px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.server-results {
+    margin-top: 20px;
+    border: 1px solid rgba(74,222,128,.18);
+    background: rgba(74,222,128,.04);
+    padding: 17px;
+    border-radius: 14px;
+}
+
+.server-results h3 {
+    font-size: 13px;
+    margin: 0 0 12px;
+    color: #bbf7d0;
+}
+
+.server-results p {
+    color: #d5cde6;
+    font-size: 12px;
+    line-height: 1.8;
+    margin: 7px 0;
+}
+
+.server-results strong { color: white; }
+
+footer {
+    margin-top: 30px;
+    padding-top: 19px;
+    border-top: 1px solid var(--line);
+    color: #756d8e;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+footer a { color: #c4b5fd; }
+footer a:hover { text-decoration: underline; }
+
+.mobile-menu {
+    display: none;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 11px;
+    background: var(--panel2);
+    color: white;
+    cursor: pointer;
+}
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+    .sidebar { width: 210px; }
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .gauge-section { padding-bottom: 23px; }
+}
+
+@media (max-width: 760px) {
+    .app { display: block; }
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 260px;
+        transform: translateX(-105%);
+        transition: transform .25s ease;
+        box-shadow: 15px 0 50px rgba(0,0,0,.4);
     }
-  </style>
-  <style>
-    .center {
-      margin: auto;
-      width: fit-content;
-      border: 5px solid grey;
-      border-radius: 20px;
-      padding: 25px;
-      background-color: transparent;
-    } 
-    </style>
-    <style>
-      .imageContainer {
-       width:50px; 
-       height:50px; 
-       background-image: url(/static/index.png);
-       }
-    </style>
-        
+    .sidebar.open { transform: translateX(0); }
+    .mobile-menu { display: inline-block; }
+    .main { padding: 20px 16px; }
+    .topbar { margin-bottom: 27px; }
+    .stats-grid { gap: 10px; }
+    .stat-card { padding: 14px; }
+    .stat-icon { width: 30px; height: 30px; }
+    .stat-value { font-size: 23px; }
+    .stat-label { font-size: 10px; }
+    .stat-foot { font-size: 10px; }
+}
+
+@media (max-width: 430px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .stat-card { padding: 17px; }
+    .stat-value { margin-top: 10px; }
+    .live-pill { padding: 8px; }
+    .live-pill .status-text { display: none; }
+    .panel { padding: 18px; }
+    .page-title { font-size: 26px; }
+    .gauge { width: 185px; height: 185px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
 </head>
+
 <body>
-  <header>  
-    <div style="text-align:center">
-    <img src="/static/logo.jpeg" width="180" height="180" style="border-radius: 50%;" ><br>
-    <h1 style="color: black">Welcome to MST-Services</h1>
-    <p style="color: yellow" ><font size="+2"><strong><mark>Attendance Checker</mark></strong></font></p>
-      
-    <div class="center">
-    <form  method="get">
-    
-    <p style="color: black; font-weight: 900;"><strong>Note:</strong> None of your data is being stored or used anywhere. This website is free and <a href="https://github.com/dhimanparas20/Attendance-Predictor" target="_blank"><b>opensource</b></a>.</p><br>  
+<div id="starfield" aria-hidden="true"></div>
+<div class="ambient one"></div>
+<div class="ambient two"></div>
 
-    <label id="icon" for="name"></label><i class="fas fa-user" aria-hidden="true"></i></label>
-    <input type="text" style="height: 3.5%; width: 80%;" size="30%" background-color: whitesmoke;" maxlength="20" minlength="1" name="name" id="name" placeholder="Your Name" required/>  
-    <br><br>  
-    
-    <label id="icon" for="curr_lec"><i class="fas fa-graduation-cap" style="font-size:15px"></i></label>
-    <input type="number" style="height: 3.5%; width: 80%;" min="1" max="200"  name="curr_lec" id="curr_lec" placeholder="Number of Lectures Attended BY YOU" required/>  
-    <br><br>
-    
-    <label id="icon" for="tot_lec"><i class="fas fa-pencil-square-o " style="font-size:15px"></i></label>
-    <input type="number" style="height: 3.5%; width: 80%;" min="1" max="200" name="tot_lec" id="tot_lec" placeholder="Number of Lectures Delivered BY TEACHER" required/>
-    <br><br>
+<div class="app">
 
-    <input  type="submit" value="Calculate" style="border-radius: 25px; height: 5%; width: 30%; color: yellow; background-color:black; border-color: aqua;" >
-    <br> <br> 
-    <hr>  
-    <div id="output" ></div>
-    <p class="output-statement"><strong>Dear <mark><b>{{name}}</b></mark> : Your current ATTENDANCE is: <spin style="color: red">{{per}}% </spin></strong></p>
-        <p class="output-statement" ><strong>To get a minimum of 75% ATTENDANCE you need to attend atleast {{val1}} out of {{val2}} lectures  now onwards.</strong></p>
-        <p class="output-statement"><mark><strong>In Simple words: You need to attend <spin style="color: red">{{temp}}</spin> more lectures.</strong></mark></p>
-    <hr>
-    </div>
-    </form>
-    </div> 
-  </header>
-  <div id="footer">
-  &lt;&lt;&lt; ©<a href="https://github.com/dhimanparas20" target="_blank"> Paras Dhiman & Messi</a> &gt;&gt;&gt;
-  </div>    
+    <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#overview" aria-label="MST Services home">
+            <img src="{{ url_for('static', filename='logo.jpeg') }}"
+                 alt="MST Services logo">
+            <div>
+                <div class="brand-name">MST <span>Services</span></div>
+                <div class="brand-caption">GALAXY PRO</div>
+            </div>
+        </a>
+
+        <p class="nav-heading">WORKSPACE</p>
+
+        <a href="#overview" class="nav-link active" data-nav="overview">
+            <span class="nav-icon">◈</span> Overview
+        </a>
+        <a href="#calculator" class="nav-link" data-nav="calculator">
+            <span class="nav-icon">⊕</span> Attendance Calculator
+        </a>
+        <a href="#analytics" class="nav-link" data-nav="analytics">
+            <span class="nav-icon">◷</span> Attendance Analytics
+        </a>
+        <a href="#report" class="nav-link" data-nav="report">
+            <span class="nav-icon">▤</span> Attendance Report
+        </a>
+
+        <div class="sidebar-bottom">
+            <div class="system-card">
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    Calculator ready
+                </div>
+                <p>Enter your lecture details to preview your attendance and plan for the 75% target.</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main" id="overview">
+
+        <div class="topbar">
+            <div style="display:flex;align-items:center;gap:12px">
+                <button class="mobile-menu" id="menuButton"
+                        type="button" aria-label="Open navigation"
+                        aria-expanded="false">☰</button>
+                <div class="breadcrumb">Workspace / <span>Dashboard</span></div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="live-pill">
+                    <span class="status-dot"></span>
+                    <span class="status-text">SYSTEM ONLINE</span>
+                </div>
+                <div class="avatar" aria-label="MST user">M</div>
+            </div>
+        </div>
+
+        <header>
+            <h1 class="page-title">Your Attendance <span class="gradient">Universe.</span></h1>
+            <p class="page-description">
+                Welcome to your personal academic dashboard. Know your numbers,
+                plan your lectures, and stay on track.
+            </p>
+        </header>
+
+        <section aria-label="Attendance statistics" id="analytics">
+            <h2 class="section-label">AT A GLANCE</h2>
+
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Current Attendance</span>
+                        <span class="stat-icon">◉</span>
+                    </div>
+                    <div class="stat-value" id="statPercent">—<small>%</small></div>
+                    <div class="stat-foot purple" id="statPercentFoot">Enter your lecture details</div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Lectures Attended</span>
+                        <span class="stat-icon">▣</span>
+                    </div>
+                    <div class="stat-value" id="statAttended">—</div>
+                    <div class="stat-foot" id="statTotalFoot">Out of — lectures</div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Lectures to Target</span>
+                        <span class="stat-icon">✦</span>
+                    </div>
+                    <div class="stat-value" id="statNeeded">—</div>
+                    <div class="stat-foot" id="statNeededFoot">75% attendance goal</div>
+                </article>
+            </div>
+        </section>
+
+        <div class="dashboard-grid">
+
+            <!-- Input form -->
+            <section class="panel" id="calculator">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Attendance Calculator</h2>
+                        <p>Enter your details to generate a personalized report.</p>
+                    </div>
+                    <span class="mini-tag">✦ SMART TOOL</span>
+                </div>
+
+                <form method="get" action="" id="attendanceForm">
+                    <div class="field">
+                        <label for="name">YOUR NAME</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">♙</span>
+                            <input type="text" id="name" name="name"
+                                   placeholder="Enter your name"
+                                   minlength="1" maxlength="20"
+                                   autocomplete="name" required
+                                   value="{{ request.args.get('name', '') }}">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="curr_lec">LECTURES YOU HAVE ATTENDED</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">▤</span>
+                            <input type="number" id="curr_lec" name="curr_lec"
+                                   placeholder="e.g. 36"
+                                   min="0" max="200" step="1" required
+                                   inputmode="numeric"
+                                   value="{{ request.args.get('curr_lec', '') }}">
+                        </div>
+                        <p class="field-hint">The total number of lectures you attended.</p>
+                    </div>
+
+                    <div class="field">
+                        <label for="tot_lec">TOTAL LECTURES DELIVERED</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">▦</span>
+                            <input type="number" id="tot_lec" name="tot_lec"
+                                   placeholder="e.g. 50"
+                                   min="1" max="200" step="1" required
+                                   inputmode="numeric"
+                                   value="{{ request.args.get('tot_lec', '') }}">
+                        </div>
+                        <p class="field-hint">The total number of lectures conducted by your teacher.</p>
+                    </div>
+
+                    <button class="primary-btn" type="submit">
+                        Calculate Attendance &nbsp; ↗
+                    </button>
+
+                    <p class="form-foot">
+                        Your inputs update the preview instantly.
+                        Submit to generate the Flask report.
+                    </p>
+                </form>
+
+                <div class="privacy">
+                    <span>🔒</span>
+                    <span>
+                        This page does not intentionally save your entries.
+                        Actual data handling depends on your Flask server and hosting.
+                        <a href="https://github.com/dhimanparas20/Attendance-Predictor"
+                           target="_blank" rel="noopener noreferrer"
+                           style="color:#c4b5fd">View source ↗</a>
+                    </span>
+                </div>
+            </section>
+
+            <!-- Live preview and gauge -->
+            <section class="panel" id="report">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Live Attendance Preview</h2>
+                        <p>Your attendance universe, updated as you type.</p>
+                    </div>
+                    <span class="mini-tag">LIVE</span>
+                </div>
+
+                <div class="gauge-section">
+                    <div class="gauge" id="gauge"
+                         role="img" aria-label="Attendance percentage: not calculated">
+                        <div class="gauge-inner">
+                            <div class="gauge-value" id="gaugeValue">0<small>%</small></div>
+                            <div class="gauge-caption">ATTENDANCE RATE</div>
+                        </div>
+                    </div>
+
+                    <div class="gauge-status" id="gaugeStatus">
+                        <span>✦</span>
+                        <span id="statusText">Awaiting your details</span>
+                    </div>
+                </div>
+
+                <div class="target-line">
+                    <span>Required attendance</span>
+                    <strong>75%</strong>
+                </div>
+                <div class="progress-track" role="progressbar"
+                     aria-label="Progress toward 75% attendance"
+                     aria-valuemin="0" aria-valuemax="75"
+                     aria-valuenow="0" id="targetProgress">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <div class="result-banner">
+                    <div class="result-title">LECTURES TO REACH 75%</div>
+                    <div class="result-number" id="previewNeeded">— lectures</div>
+                    <div class="result-copy" id="previewMessage">
+                        Enter your attended and total lecture counts to see your plan.
+                    </div>
+                </div>
+
+                <div class="result-list">
+                    <div class="result-small">
+                        <p>Attended</p>
+                        <strong id="previewAttended">—</strong>
+                    </div>
+                    <div class="result-small">
+                        <p>Total delivered</p>
+                        <strong id="previewTotal">—</strong>
+                    </div>
+                </div>
+
+                {% if per is defined and per is not none %}
+                <div class="server-results">
+                    <h3>✓ Official Flask Report</h3>
+                    <p>
+                        Dear <strong>{{ name }}</strong>,
+                        your current attendance is <strong>{{ per }}%</strong>.
+                    </p>
+                    <p>
+                        Your backend's attendance plan:
+                        attend at least <strong>{{ val1 }}</strong>
+                        out of the next <strong>{{ val2 }}</strong>
+                        lectures.
+                    </p>
+                    <p>
+                        Additional lectures to attend:
+                        <strong>{{ temp }}</strong>
+                    </p>
+                </div>
+                {% endif %}
+
+            </section>
+        </div>
+
+        <footer>
+            <span>© 2026 Attendence  · Galaxy Pro Dashboard</span>
+            <span>Made by
+                <a href="https://github.com/dhimanparas20"
+                   target="_blank" rel="noopener noreferrer">Paras Dhiman &amp; Messi</a>
+            </span>
+        </footer>
+
+    </main>
+</div>
+
+<script>
+(function () {
+    "use strict";
+
+    // Animated stars
+    const starfield = document.getElementById("starfield");
+    let seed = 92741;
+
+    function random() {
+        seed = (seed * 16807) % 2147483647;
+        return (seed - 1) / 2147483646;
+    }
+
+    for (let i = 0; i < 95; i++) {
+        const star = document.createElement("span");
+        star.className = "star";
+        const size = random() > 0.86 ? 2 : 1;
+
+        star.style.left = (random() * 100) + "%";
+        star.style.top = (random() * 100) + "%";
+        star.style.width = size + "px";
+        star.style.height = size + "px";
+        star.style.setProperty("--duration", (2.5 + random() * 5) + "s");
+        star.style.setProperty("--delay", (-random() * 6) + "s");
+
+        starfield.appendChild(star);
+    }
+
+    // Mobile navigation
+    const sidebar = document.getElementById("sidebar");
+    const menuButton = document.getElementById("menuButton");
+
+    menuButton.addEventListener("click", function () {
+        const isOpen = sidebar.classList.toggle("open");
+        menuButton.setAttribute("aria-expanded", String(isOpen));
+        menuButton.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+        menuButton.textContent = isOpen ? "✕" : "☰";
+    });
+
+    document.querySelectorAll(".nav-link").forEach(function (link) {
+        link.addEventListener("click", function () {
+            document.querySelectorAll(".nav-link").forEach(function (item) {
+                item.classList.remove("active");
+            });
+            link.classList.add("active");
+            sidebar.classList.remove("open");
+            menuButton.setAttribute("aria-expanded", "false");
+            menuButton.setAttribute("aria-label", "Open navigation");
+            menuButton.textContent = "☰";
+        });
+    });
+
+    // Inputs and live calculator
+    const nameInput = document.getElementById("name");
+    const attendedInput = document.getElementById("curr_lec");
+    const totalInput = document.getElementById("tot_lec");
+    const form = document.getElementById("attendanceForm");
+
+    const gauge = document.getElementById("gauge");
+    const gaugeValue = document.getElementById("gaugeValue");
+    const gaugeStatus = document.getElementById("gaugeStatus");
+    const statusText = document.getElementById("statusText");
+    const progressFill = document.getElementById("progressFill");
+    const targetProgress = document.getElementById("targetProgress");
+
+    function setText(id, value) {
+        document.getElementById(id).textContent = value;
+    }
+
+    function updateDashboard() {
+        const name = nameInput.value.trim();
+        const attendedRaw = attendedInput.value;
+        const totalRaw = totalInput.value;
+
+        const attended = Number(attendedRaw);
+        const total = Number(totalRaw);
+
+        const valid =
+            attendedRaw !== "" &&
+            totalRaw !== "" &&
+            Number.isInteger(attended) &&
+            Number.isInteger(total) &&
+            attended >= 0 &&
+            total >= 1 &&
+            attended <= total &&
+            attended <= 200 &&
+            total <= 200;
+
+        if (!valid) {
+            gauge.style.setProperty("--progress", "0%");
+            gaugeValue.innerHTML = '0<small>%</small>';
+            gauge.setAttribute("aria-label", "Enter valid lecture counts");
+
+            setText("statPercent", "—");
+            setText("statAttended", "—");
+            setText("statTotalFoot", "Out of — lectures");
+            setText("statNeeded", "—");
+            setText("statPercentFoot", "Enter valid lecture counts");
+            setText("statNeededFoot", "75% attendance goal");
+
+            setText("previewNeeded", "— lectures");
+            setText("previewAttended", "—");
+            setText("previewTotal", "—");
+            setText("previewMessage",
+                "Enter valid counts. Attended lectures cannot exceed total lectures.");
+
+            setText("statusText", "Awaiting valid details");
+            gaugeStatus.className = "gauge-status";
+
+            progressFill.style.width = "0%";
+            targetProgress.setAttribute("aria-valuenow", "0");
+            return;
+        }
+
+        const percentage = attended / total * 100;
+
+        // Lectures to attend consecutively without missing any.
+        // (attended + x) / (total + x) >= 0.75
+        const needed = Math.max(0, Math.ceil(3 * total - 4 * attended));
+
+        const rounded = Math.round(percentage * 100) / 100;
+        const displayPercent = Number.isInteger(rounded)
+            ? String(rounded)
+            : rounded.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+
+        gauge.style.setProperty(
+            "--progress",
+            Math.min(percentage, 100) + "%"
+        );
+        gaugeValue.innerHTML = displayPercent + '<small>%</small>';
+        gauge.setAttribute(
+            "aria-label",
+            "Attendance percentage: " + displayPercent + "%"
+        );
+
+        setText("statPercent", displayPercent + "%");
+        setText("statAttended", String(attended));
+        setText("statTotalFoot", "Out of " + total + " lectures");
+        setText("statNeeded", String(needed));
+        setText("statPercentFoot",
+            percentage >= 75 ? "You have reached the target" : "Below the 75% target");
+        setText("statNeededFoot",
+            needed === 0 ? "Target achieved" : "Attend without missing lectures");
+
+        setText("previewNeeded", needed + (needed === 1 ? " lecture" : " lectures"));
+        setText("previewAttended", String(attended));
+        setText("previewTotal", String(total));
+
+        if (needed === 0) {
+            setText("previewMessage",
+                "Great work" + (name ? ", " + name : "") +
+                "! You have reached the 75% attendance target. Keep it up.");
+            setText("statusText", "Target achieved");
+            gaugeStatus.className = "gauge-status good";
+        } else {
+            setText("previewMessage",
+                "Attend the next " + needed +
+                " lectures without missing any to reach at least 75%.");
+            setText("statusText",
+                percentage < 50 ? "Attendance needs attention" : "Keep building attendance");
+            gaugeStatus.className =
+                "gauge-status " + (percentage < 50 ? "warning" : "");
+        }
+
+        progressFill.style.width = Math.min(percentage / 75 * 100, 100) + "%";
+        targetProgress.setAttribute(
+            "aria-valuenow",
+            String(Math.min(percentage, 75))
+        );
+    }
+
+    [nameInput, attendedInput, totalInput].forEach(function (input) {
+        input.addEventListener("input", updateDashboard);
+    });
+
+    // Validate the counts before sending them to Flask.
+    form.addEventListener("submit", function (event) {
+        const attended = Number(attendedInput.value);
+        const total = Number(totalInput.value);
+
+        if (
+            attendedInput.value === "" ||
+            totalInput.value === "" ||
+            !Number.isInteger(attended) ||
+            !Number.isInteger(total) ||
+            attended < 0 ||
+            total < 1 ||
+            attended > total ||
+            attended > 200 ||
+            total > 200
+        ) {
+            event.preventDefault();
+            updateDashboard();
+
+            if (attended > total) {
+                totalInput.setCustomValidity(
+                    "Total lectures must be at least the number of lectures attended."
+                );
+                totalInput.reportValidity();
+                totalInput.addEventListener("input", function clearError() {
+                    totalInput.setCustomValidity("");
+                    totalInput.removeEventListener("input", clearError);
+                });
+            } else {
+                form.reportValidity();
+            }
+        }
+    });
+
+    updateDashboard();
+})();
+</script>
 </body>
 </html>
